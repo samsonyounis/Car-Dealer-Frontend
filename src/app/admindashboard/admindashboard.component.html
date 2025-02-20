@@ -1,0 +1,110 @@
+<div class="container pt-5 my-5">
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="bg-dark text-white p-3">
+          <h4 class="text-center">Admin Panel</h4>
+          <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link text-white" (click)="setActiveTab('dashboard')"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link text-white" (click)="setActiveTab('cars')"><i class="fa fa-car"></i> Cars</a></li>
+            <li class="nav-item"><a class="nav-link text-white" (click)="setActiveTab('sellers')"><i class="fa fa-users"></i> Sellers</a></li>
+            <li class="nav-item"><a class="nav-link text-white" (click)="setActiveTab('orders')"><i class="fa fa-shopping-cart"></i> Orders</a></li>
+            <li class="nav-item"><a class="nav-link text-white" (click)="setActiveTab('queries')"><i class="fa fa-envelope"></i> Client Queries</a></li>
+          </ul>
+        </nav>
+      
+        <!-- Main Content -->
+        <main class="p-4 w-100">
+          <div *ngIf="activeTab === 'dashboard'">
+            <h2>📊 Dashboard</h2>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="card text-white bg-primary">
+                  <div class="card-body">
+                    <h5 class="card-title">🚗 Total Cars</h5>
+                    <p class="card-text">{{ totalCars }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card text-white bg-success">
+                  <div class="card-body">
+                    <h5 class="card-title">👤 Total Sellers</h5>
+                    <p class="card-text">{{ totalSellers }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card text-white bg-warning">
+                  <div class="card-body">
+                    <h5 class="card-title">📦 Total Orders</h5>
+                    <p class="card-text">{{ totalOrders }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card text-white bg-danger">
+                  <div class="card-body">
+                    <h5 class="card-title">📩 Unresolved Queries</h5>
+                    <p class="card-text">{{ totalQueries }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Cars Table -->
+          <div *ngIf="activeTab === 'cars'">
+            <h2>🚗 Cars Listed</h2>
+            <table class="table table-bordered">
+              <thead class="table-dark">
+                <tr>
+                  <th>#</th>
+                  <th>Car Model</th>
+                  <th>Seller</th>
+                  <th>Price</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let car of cars; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ car.model }}</td>
+                  <td>{{ car.seller }}</td>
+                  <td>{{ car.price }}</td>
+                  <td>{{ car.status }}</td>
+                  <td>
+                    <button class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></button>
+                    <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      
+          <!-- Orders Table -->
+          <div *ngIf="activeTab === 'orders'">
+            <h2>📦 Orders</h2>
+            <table class="table table-bordered">
+              <thead class="table-dark">
+                <tr>
+                  <th>#</th>
+                  <th>Car Model</th>
+                  <th>Buyer</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let order of orders; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ order.carModel }}</td>
+                  <td>{{ order.buyer }}</td>
+                  <td>{{ order.status }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </main>
+      </div>      
+</div>
+  

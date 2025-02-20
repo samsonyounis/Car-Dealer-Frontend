@@ -1,0 +1,97 @@
+<div class="container pt-5 my-5">
+
+    <div class="container py-5">
+        <h2 class="text-center mb-4">Help & Support</h2>
+      
+        <!-- Sticky Navigation -->
+        <div class="d-flex justify-content-center mb-4">
+          <div class="btn-group">
+            <button class="btn btn-outline-primary active" data-toggle="tab" href="#faqTab">FAQs</button>
+            <button class="btn btn-outline-primary" data-toggle="tab" href="#contactTab">Contact Us</button>
+            <button class="btn btn-outline-primary" data-toggle="tab" href="#chatTab">Live Chat</button>
+            <button class="btn btn-outline-primary" data-toggle="tab" href="#ticket">Submit Ticket</button>
+
+          </div>
+        </div>
+      
+        <!-- Tabs Content -->
+        <div class="tab-content">
+          
+          <!-- FAQ Section -->
+          <div class="tab-pane fade show active" id="faqTab">
+            <div class="accordion" id="faqAccordion">
+              <div class="card">
+                <div class="card-header" id="faqHeadingOne">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                      What is the return policy?
+                    </button>
+                  </h5>
+                </div>
+                <div id="faqCollapseOne" class="collapse show" aria-labelledby="faqHeadingOne" data-parent="#faqAccordion">
+                  <div class="card-body">
+                    Our return policy allows you to return cars within 30 days of purchase.
+                  </div>
+                </div>
+              </div>
+              <!-- Repeat FAQ Items as Needed -->
+            </div>
+          </div>
+      
+          <!-- Contact Form Section -->
+          <div class="tab-pane fade" id="contactTab">
+            <div class="card mb-4">
+              <div class="card-header bg-primary text-white">Contact Us</div>
+              <div class="card-body">
+                <form (ngSubmit)="onSubmit()">
+                  <div class="form-group">
+                    <label for="name">Name</label>
+                    <input id="name" type="text" class="form-control" [(ngModel)]="model.name" name="name" required>
+                  </div>
+      
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input id="email" type="email" class="form-control" [(ngModel)]="model.email" name="email" required>
+                  </div>
+      
+                  <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" class="form-control" rows="4" [(ngModel)]="model.message" name="message" required></textarea>
+                  </div>
+      
+                  <button type="submit" class="btn btn-success">Submit</button>
+                </form>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Live Chat Section -->
+          <div class="tab-pane fade" id="chatTab">
+            <div class="card">
+              <div class="card-header bg-info text-white">
+                Live Chat Support
+              </div>
+              <div class="card-body text-center">
+                <button class="btn btn-light">Start Chat</button>
+              </div>
+            </div>
+          </div>
+      
+        </div>
+      
+        <!-- Customer Support Information -->
+        <div class="text-center mt-5">
+          <h4>Contact Support</h4>
+          <p>Phone: +1-800-123-4567</p>
+          <p>Email: support.com</p>
+          <p>Hours: Mon-Fri, 9 AM - 6 PM</p>
+        </div>
+      
+        <!-- Floating Live Chat Button -->
+        <div class="chat-btn">
+          <button class="btn btn-lg btn-info">💬</button>
+        </div>
+      </div>
+      
+      
+</div>

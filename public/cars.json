@@ -1,0 +1,48 @@
+[
+    {
+        "id":"1",
+        "name": "Toyota v8",
+        "type": "Toyota",
+        "des": "Model 8, 1500 millage,",
+        "image":"v8.JPG",
+        "available":"available",
+        "price":20000,
+        "phoneNumber":"254791412587",
+        "reviews":[{"name": "John", "comment": "Great car!", "date": "2025-01-01"}]
+    },
+
+    {
+        "id":"2",
+        "name": "Toyota Land cruiser",
+        "type": "Toyota",
+        "des": "Model 2022, 1500 millage,",
+        "image":"land-cruiser.JPG",
+        "available":"available",
+        "price":13000,
+        "phoneNumber":"254791412587",
+        "reviews":[{"name": "Peter", "comment": "Newest model Great car!", "date": "2025-01-01"}]
+    },
+
+    {
+        "id":"3",
+        "name": "Prado",
+        "type": "Toyota",
+        "des": "Model 8, 1500 millage,",
+        "image":"prado.JPG",
+        "available":"available",
+        "price":25000,
+        "phoneNumber":"254791412587",
+        "reviews":[{"name": "John", "comment": "Great car!", "date": "2025-01-01"}]
+    },
+    {
+        "id":"4",
+        "name": "Mercedes",
+        "type": "Mercedes",
+        "des": "Model 8, 1500 millage,",
+        "image":"mercedes.JPG",
+        "available":"available",
+        "price":30000,
+        "phoneNumber":"+254791412587",
+        "reviews":[{"name": "John", "comment": "Great car!", "date": "2025-01-01"}]
+    }
+]
