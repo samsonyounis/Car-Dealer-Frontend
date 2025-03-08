@@ -9,14 +9,13 @@ import { Router } from '@angular/router';
 export class UserServiceService {
 
 // private baseUrl = "http://localhost:4009/api/v1";
-private baseUrl ="https://tax-app-backend-50fa99ed12cc.herokuapp.com/api/v1/user";
 private localUrl ="http://localhost:4009/api/v1/user";
 private tokenKey = 'auth_token';
 
   constructor(private http:HttpClient,private router: Router) { }
 
   private getFullUrl(endpoint: string): string {
-    return `${this.baseUrl}${endpoint}`;
+    return `${this.localUrl}${endpoint}`;
   }
 
   createPoll(poll: any): Observable<any> {
@@ -25,6 +24,7 @@ private tokenKey = 'auth_token';
   }
   registerUser(user: any): Observable<any> {
     console.log(user.fullName)
+    console.log(user.type)
     return this.http.post(this.getFullUrl("/register"), user)
     .pipe(catchError(this.handleError));
   }

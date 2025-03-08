@@ -16,6 +16,7 @@ import { HelpsupportComponent } from './helpsupport/helpsupport.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { AdminDashboardComponent } from './admindashboard/admindashboard.component';
 import { SellerdashboardComponent } from './sellerdashboard/sellerdashboard.component';
+import { BuyerdashboardComponent } from './buyerdashboard/buyerdashboard.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -33,5 +34,6 @@ export const routes: Routes = [
     {path: 'forgot-password', component: ForgotPasswordComponent},
     {path: 'admin-dashboard', component: AdminDashboardComponent},
     {path: 'seller-dashboard', component: SellerdashboardComponent},
+    {path: 'buyer-dashboard', component: BuyerdashboardComponent},
     {path: '**', component: ErrorComponent}
 ];

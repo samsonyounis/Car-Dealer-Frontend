@@ -18,19 +18,23 @@ export class RegisterComponent {
 
   userFullName='';
   userEmail='';
+  userType='';
   userPassword='';
   confirmPassword='';
   isLoading: boolean = false; // Loading state
 
   onRegister(form:any){
+    console.log(this.userType);
     if (form.valid) {
       console.log(form.value);
       const userData = {
         fullName: this.userFullName,
+        type:this.userType,
         email: this.userEmail,
         password: this.userPassword
       }
       this.isLoading = true;
+      console.log(userData);
       // Send POST request
       this.userService.registerUser(userData).subscribe({
         next: (response) => {

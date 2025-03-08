@@ -32,8 +32,15 @@ export class LoginComponent {
             response.data.fullName
           );
           this.isLoading = false;
+          if(response.data.userType==='SELLER'){
           // Navigate to the dashboard or home page
           this.router.navigate(['/seller-dashboard']);
+          }else if(response.data.userType==='BUYER'){
+            this.router.navigate(['/buyer-dashboard']);
+          }
+          else{
+            this.router.navigate(['/admin-dashboard']);
+          }
         } else {
           console.log(response.message);
           this.isLoading = false;

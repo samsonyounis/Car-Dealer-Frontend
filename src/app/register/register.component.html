@@ -31,10 +31,21 @@
           </div>
 
           <div class="mb-3">
+            <label for="userType" class="form-label">User Type</label>
+            <select id="userType" class="form-control" required [(ngModel)]="userType" name="userType" #userType="ngModel">
+                <option value="" disabled selected>Select user type</option>
+                <option value="BUYER">BUYER</option>
+                <option value="SELLER">SELLER</option>
+            </select>
+        </div>
+        <div *ngIf="userType.invalid && userType.touched" class="text-danger">
+            Please select a user type
+        </div>
+
+          <div class="mb-3">
             <label for="userPassword" class="form-label">Password</label>
             <input type="password" id="userPassword" class="form-control" 
-            required [(ngModel)]="userPassword" name="userPassword" #password="ngModel"
-            >
+            required [(ngModel)]="userPassword" name="userPassword" #password="ngModel">
           </div>
           <div *ngIf="password.invalid && password.touched" class="text-danger">
             Password is required
