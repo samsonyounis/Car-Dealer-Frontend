@@ -18,7 +18,7 @@ export class RegisterComponent {
 
   userFullName='';
   userEmail='';
-  userType='';
+  userType:string='';
   userPassword='';
   confirmPassword='';
   isLoading: boolean = false; // Loading state
@@ -29,7 +29,7 @@ export class RegisterComponent {
       console.log(form.value);
       const userData = {
         fullName: this.userFullName,
-        type:this.userType,
+        userType: form.value.userType || this.userType,
         email: this.userEmail,
         password: this.userPassword
       }

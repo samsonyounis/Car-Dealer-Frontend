@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 export class UserServiceService {
 
 // private baseUrl = "http://localhost:4009/api/v1";
-private localUrl ="http://localhost:4009/api/v1/user";
+private localUrl ="http://localhost:8081/api/v1/user";
 private tokenKey = 'auth_token';
 
   constructor(private http:HttpClient,private router: Router) { }
