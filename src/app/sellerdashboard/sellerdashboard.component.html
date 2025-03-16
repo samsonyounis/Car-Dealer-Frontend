@@ -1,100 +1,310 @@
-<div class="container pt-5 my-5">
-    <div class="d-flex">
-        <!-- Sidebar -->
-        <nav id="sidebar" class="bg-dark text-white p-3">
-          <h4 class="text-center">Seller Panel</h4>
-          <ul class="nav flex-column">
-            <li class="nav-item"><a class="nav-link text-white" (click)="setActiveTab('dashboard')"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link text-white" (click)="setActiveTab('cars')"><i class="fa fa-car"></i> Cars</a></li>
-            <li class="nav-item"><a class="nav-link text-white" (click)="setActiveTab('orders')"><i class="fa fa-shopping-cart"></i> Orders</a></li>
-          </ul>
+<div class="container-fluid pt-5 my-5">
+
+  <div class="container-fluid">
+    <!-- Sidebar -->
+    <div class="row">
+      <div class="col-md-2 p-0">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="navbar-nav">
+            <a class="nav-link"  (click)="changeSection('cars')">Cars</a>
+            <a class="nav-link" (click)="changeSection('inquiries')">Inquiries</a>
+            <a class="nav-link" (click)="changeSection('payments')">Payments</a>
+            <a class="nav-link" (click)="changeSection('profile')">Profile</a>
+            <a class="nav-link text-danger" (click)="logout()">Logout</a>
+          </div>
         </nav>
-      
-        <!-- Main Content -->
-        <main class="p-4 w-100">
-          <div *ngIf="activeTab === 'dashboard'">
-            <h2>📊 Dashboard</h2>
-            <div class="row">
-              <div class="col-md-3">
-                <div class="card text-white bg-primary">
-                  <div class="card-body">
-                    <h5 class="card-title">🚗 Total Cars</h5>
-                    <p class="card-text">{{ totalCars }}</p>
+      </div>
+  
+      <div class="modal fade" id="addCarModal" tabindex="-1" aria-labelledby="addCarModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addCarModal">Add New Car</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                            <!-- spinner -->
+            <div *ngIf="loading" style="text-align: center;">
+                <p>Adding Car...</p>
+                 <div class="spinner-border text-primary" role="status">
+                      <span class="visually-hidden">Loading...</span>
                   </div>
+            </div>
+            <div class="modal-body">
+              <form (ngSubmit)="addCar()">
+                
+                <div class="mb-3">
+                  <label for="carName" class="form-label">Car Name</label>
+                  <input type="text" id="carName" class="form-control" [(ngModel)]="newCar.carName" name="carName" required>
                 </div>
-              </div>
-              <div class="col-md-3">
-                <div class="card text-white bg-success">
-                  <div class="card-body">
-                    <h5 class="card-title">👤 Total Sells</h5>
-                    <p class="card-text">{{ totalSellers }}</p>
-                  </div>
+                <div class="mb-3">
+                  <label for="price" class="form-label">Price</label>
+                  <input type="text" id="price" class="form-control" [(ngModel)]="newCar.price" name="price" required>
                 </div>
-              </div>
-              <div class="col-md-3">
-                <div class="card text-white bg-warning">
-                  <div class="card-body">
-                    <h5 class="card-title">📦 Total Orders</h5>
-                    <p class="card-text">{{ totalOrders }}</p>
-                  </div>
+                <div class="mb-3">
+                  <label for="carBrand" class="form-label">Car Brand</label>
+                  <input type="text" id="carBrand" class="form-control" [(ngModel)]="newCar.brand" name="carBrand" required>
                 </div>
-              </div>
+                <div class="mb-3">
+                  <label for="imageUrl" class="form-label">Car Image</label>
+                  <input type="file" id="imageUrl" class="form-control" [(ngModel)]="newCar.imageUrl" name="imageUrl" required>
+                </div>
+                <div class="mb-3">
+                  <label for="milleage" class="form-label">Milleage</label>
+                  <input type="text" id="milleage" class="form-control" [(ngModel)]="newCar.milleage" name="milleage" required>
+                </div>
+                <div class="mb-3">
+                  <label for="engine" class="form-label">Engine Type</label>
+                  <input type="text" id="engine" class="form-control" [(ngModel)]="newCar.engine" name="engine" required>
+                </div>
+                <div class="mb-3">
+                  <label for="seats" class="form-label">Seats</label>
+                  <input type="text" id="seats" class="form-control" [(ngModel)]="newCar.seats" name="seats" required>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Add Car</button>
+                </div>
+              </form>
             </div>
           </div>
-      
-          <!-- Cars Table -->
-          <div *ngIf="activeTab === 'cars'">
-            <h2>🚗 Cars Listed</h2>
-            <table class="table table-bordered">
-              <thead class="table-dark">
+        </div>
+      </div>
+
+      <div class="modal fade" id="editCarModal" tabindex="-1" aria-labelledby="editCarModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editPropertyModal">Edit Car</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                            <!-- spinner -->
+            <div *ngIf="loading" style="text-align: center;">
+                <p>Editing Car...</p>
+                 <div class="spinner-border text-primary" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                  </div>
+            </div>
+            <div class="modal-body">
+              <form (ngSubmit)="editCar()">
+                <div class="mb-3">
+                  <label for="carId" class="form-label">Car ID</label>
+                  <input type="text" id="carId" class="form-control" [(ngModel)]="newCar.id" name="id" required readonly>
+                </div>
+                <div class="mb-3">
+                  <label for="carName" class="form-label">Car Name</label>
+                  <input type="text" id="carName" class="form-control" [(ngModel)]="newCar.carName" name="carName" required>
+                </div>
+                <div class="mb-3">
+                  <label for="price" class="form-label">Price</label>
+                  <input type="text" id="price" class="form-control" [(ngModel)]="newCar.price" name="price" required>
+                </div>
+                <div class="mb-3">
+                  <label for="carBrand" class="form-label">Car Brand</label>
+                  <input type="text" id="carBrand" class="form-control" [(ngModel)]="newCar.brand" name="carBrand" required>
+                </div>
+                <div class="mb-3">
+                  <label for="imageUrl" class="form-label">Car Image</label>
+                  <input type="file" id="imageUrl" class="form-control" [(ngModel)]="newCar.imageUrl" name="imageUrl" required>
+                </div>
+                <div class="mb-3">
+                  <label for="milleage" class="form-label">Milleage</label>
+                  <input type="text" id="milleage" class="form-control" [(ngModel)]="newCar.milleage" name="milleage" required>
+                </div>
+                <div class="mb-3">
+                  <label for="engine" class="form-label">Engine Type</label>
+                  <input type="text" id="engine" class="form-control" [(ngModel)]="newCar.engine" name="engine" required>
+                </div>
+                <div class="mb-3">
+                  <label for="seats" class="form-label">Seats</label>
+                  <input type="text" id="seats" class="form-control" [(ngModel)]="newCar.seats" name="seats" required>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="replyModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="replyModal">Reply Inquiry</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                            <!-- spinner -->
+            <div *ngIf="loading" style="text-align: center;">
+                <p>Sending reply...</p>
+                 <div class="spinner-border text-primary" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                  </div>
+            </div>
+            <div class="modal-body">
+              <form (ngSubmit)="replyInquiry()">
+                <div class="mb-3">
+                  <label for="inquiryId" class="form-label">Inquery ID</label>
+                  <input type="text" id="inquiryId" class="form-control" [(ngModel)]="newReply.inquiryId" name="inquiryId" required readonly>
+                </div>
+                <div class="mb-3">
+                  <label for="replyMessage" class="form-label">Type your reply message here</label>
+                  <input type="text" id="replyMessage" class="form-control" [(ngModel)]="newReply.replyMessage" name="replyMessage" required>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Send</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="deleteCarModal" tabindex="-1" aria-labelledby="deleteCarModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteCarModal">Delete Car</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                            <!-- spinner -->
+            <div *ngIf="loading" style="text-align: center;">
+                <p>Deleting Property...</p>
+                 <div class="spinner-border text-primary" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                  </div>
+            </div>
+            <div class="modal-body">
+              <form (ngSubmit)="deleteCar()">
+                <div class="mb-3">
+                  <label for="carId" class="form-label">Property ID</label>
+                  <input type="text" id="carId" class="form-control" [(ngModel)]="newCar.id" name="id" required readonly>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Confirm Delete</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="col-md-10 pt-5 my-5">
+        <div class="container mt-4">
+          <h2>{{ sectionTitle }}</h2>
+          
+          <!-- Tabular Content -->
+          <div class="d-flex justify-content-center">
+            <button class="btn btn-outline-success btn-sm" (click)="openAddCarModal()">Add Car</button>
+          </div><br>            
+          <div *ngIf="currentSection === 'cars'">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>S.No</th>
+                    <th>Name</th>
+                    <th>Model</th>
+                    <th>Price</th>
+                    <th>Brand</th>
+                    <th>Milleage</th>
+                    <th>Engine</th>
+                    <th>Seats</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let car of cars let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ car.carName }}</td>
+                    <td>{{ car.model }}</td>
+                    <td>{{ car.price | currency:'KES' }}</td>
+                    <td>{{ car.brand }}</td>
+                    <td>{{ car.milleage }}</td>
+                    <td>{{ car.engine }}</td>
+                    <td>{{ car.seats }}</td>
+                    <td><img [src]="car.imageUrl" alt="Car Image" class="img-fluid" style="max-width: 100px;"></td>
+                    <td>
+                      <div class="d-flex justify-content-start flex-wrap" style="gap: 5px;">
+                        <button class="btn btn-outline-primary btn-sm" (click)="openEditCarModal(car)">Edit</button>
+                        <button class="btn btn-outline-danger btn-sm" (click)="openDeleteCarModal(car)">Delete</button>
+                        <button class="btn btn-outline-success btn-sm" (click)="openAddCarModal()">Add</button>
+                      </div>            
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>  
+          </div>
+          
+          <div *ngIf="currentSection === 'inquiries'">
+            <table class="table table-bordered table-striped">
+              <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Car Model</th>
-                  <th>Seller</th>
-                  <th>Price</th>
-                  <th>Status</th>
+                  <th>S.No</th>
+                  <th>Customer Name</th>
+                  <th>Message</th>
+                  <th>Email</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let car of cars; let i = index">
+                <tr *ngFor="let inquiry of inquiries let i = index">
                   <td>{{ i + 1 }}</td>
-                  <td>{{ car.model }}</td>
-                  <td>{{ car.seller }}</td>
-                  <td>{{ car.price }}</td>
-                  <td>{{ car.status }}</td>
+                  <td>{{ inquiry.customerName }}</td>
+                  <td>{{ inquiry.message }}</td>
+                  <td>{{ inquiry.customerEmail }}</td>
                   <td>
-                    <button class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></button>
-                    <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                      <button class="btn btn-outline-primary btn-sm" (click)="openReplyInqueryModal(inquiry)">Reply</button>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-      
-          <!-- Orders Table -->
-          <div *ngIf="activeTab === 'orders'">
-            <h2>📦 Orders</h2>
-            <table class="table table-bordered">
-              <thead class="table-dark">
+  
+          <div *ngIf="currentSection === 'payments'">
+            <table class="table table-bordered table-striped">
+              <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Car Model</th>
-                  <th>Buyer</th>
-                  <th>Status</th>
+                  <td>S.No</td>
+                  <th>Payment ID</th>
+                  <th>Paid Property ID</th>
+                  <th>Amount</th>
+                  <th>Date</th>
+                  <th>Commission</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let order of orders; let i = index">
+                <tr *ngFor="let payment of payments let i = index">
                   <td>{{ i + 1 }}</td>
-                  <td>{{ order.carModel }}</td>
-                  <td>{{ order.buyer }}</td>
-                  <td>{{ order.status }}</td>
+                  <td>{{ payment.trxId }}</td>
+                  <td>{{ payment.paidProductId }}</td>
+                  <td>{{ payment.amount | currency:'KES ' }}</td>
+                  <td>{{ payment.paidDate | date: 'short' }}</td>
+                  <td>{{ payment.commission}}</td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </main>
-      </div>      
-</div>
   
+          <div *ngIf="currentSection === 'profile'">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Profile Details</h5>
+                <p><strong>Name:</strong> {{ fullName }}</p>
+                <p><strong>Email:</strong> {{ email }}</p>
+                <p><strong>Phone:</strong> {{ phone }}</p>
+                <!-- <button class="btn btn-primary">Edit Profile</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
