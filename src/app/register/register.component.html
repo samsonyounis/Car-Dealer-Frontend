@@ -11,54 +11,83 @@
           </div>
         </div>
         <form (submit)="onRegister(registerForm)" #registerForm="ngForm">
+          <!-- Full Name -->
           <div class="mb-3">
             <label for="fullName" class="form-label">Full Name</label>
             <input type="text" id="fullName" class="form-control" required [(ngModel)]="userFullName"
-             name="userFullName" #fullName="ngModel">
+              name="userFullName" #fullName="ngModel" pattern="^[A-Za-z ]+$">
           </div>
           <div *ngIf="fullName.invalid && fullName.touched" class="text-danger">
-            Name is required
+            Name must contain only letters and spaces.
           </div>
-
+        
+          <!-- Email -->
           <div class="mb-3">
             <label for="userEmail" class="form-label">Email address</label>
-            <input type="email" id="userEmail" class="form-control" required [(ngModel)]="userEmail" 
-            name="userEmail" #email ="ngModel" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$">
+            <input type="email" id="userEmail" class="form-control" required [(ngModel)]="userEmail"
+              name="userEmail" #email="ngModel" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$">
           </div>
-            <div *ngIf="email.invalid && email.touched" class="text-danger">
-              <div *ngIf="email.errors?.['required']">Email is required</div>
-              <div *ngIf="email.errors?.['pattern']">Please enter a valid email address</div>
+          <div *ngIf="email.invalid && email.touched" class="text-danger">
+            <div *ngIf="email.errors?.['required']">Email is required</div>
+            <div *ngIf="email.errors?.['pattern']">Please enter a valid email address</div>
           </div>
-
+        
+          <!-- Phone Number -->
           <div class="mb-3">
-            <label for="userType" class="form-label">User Type</label>
-            <select id="userType" class="form-control" required [(ngModel)]="userType" name="userType" #userType="ngModel">
-                <option value="BUYER">BUYER</option>
-                <option value="SELLER">SELLER</option>
+            <label for="userphoneNumber" class="form-label">Phone Number</label>
+            <input type="text" id="userphoneNumber" class="form-control" required [(ngModel)]="userphoneNumber"
+              name="userphoneNumber" #phoneNumber="ngModel" pattern="^[0-9]{10}$">
+          </div>
+          <div *ngIf="phoneNumber.invalid && phoneNumber.touched" class="text-danger">
+            Phone Number must be exactly 10 digits only.
+          </div>
+        
+          <!-- User Type -->
+          <div class="mb-3">
+            <label for="userType" class="form-label">Select User Type</label>
+            <select id="userType" class="form-select" required [(ngModel)]="userType" name="userType" #userTypeSelect="ngModel">
+              <option value="" disabled>Select your user type</option>
+              <option value="BUYER">BUYER</option>
+              <option value="SELLER">SELLER</option>
             </select>
-        </div>
-        <div *ngIf="userType.invalid && userType.touched" class="text-danger">
-            Please select a user type
-        </div>
-
-          <div class="mb-3">
+          </div>
+          <div *ngIf="userTypeSelect.invalid && userTypeSelect.touched" class="text-danger">
+            User type is required.
+          </div>
+        
+          <!-- Password -->
+          <div class="mb-3 position-relative">
             <label for="userPassword" class="form-label">Password</label>
-            <input type="password" id="userPassword" class="form-control" 
-            required [(ngModel)]="userPassword" name="userPassword" #password="ngModel">
+            <div class="input-group">
+              <input [type]="showPassword ? 'text' : 'password'" id="userPassword" class="form-control" 
+                required [(ngModel)]="userPassword" name="userPassword" #password="ngModel" (input)="checkPasswordStrength()">
+              <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
+                <i class="{{ showPassword ? 'bi bi-eye-slash' : 'bi bi-eye' }}"></i>
+              </button>
+            </div>
+            <small class="form-text" [ngClass]="{
+              'text-danger': passwordStrength === 'Weak', 
+              'text-warning': passwordStrength === 'Medium', 
+              'text-success': passwordStrength === 'Strong'}">
+              Password Strength: {{ passwordStrength }}
+            </small>
           </div>
           <div *ngIf="password.invalid && password.touched" class="text-danger">
-            Password is required
+            Password is required.
           </div>
 
+        
+          <!-- Confirm Password -->
           <div class="mb-3">
             <label for="confirmPassword" class="form-label">Confirm Password</label>
-            <input type="password" id="confirmPassword" class="form-control" required [(ngModel)]="confirmPassword" 
-            name="confirmPassword" #confirmPassword="ngModel">
+            <input type="password" id="confirmPassword" class="form-control" required [(ngModel)]="confirmPassword"
+              name="confirmPassword" #confirmPasswordField="ngModel">
           </div>
-          <!-- <div *ngIf="confirmPassword.touched" class="text-danger">
+          <div *ngIf="confirmPasswordField.touched && userPassword !== confirmPassword" class="text-danger">
             Passwords do not match.
-          </div> -->
-
+          </div>
+        
+          <!-- Submit Button -->
           <button type="submit" class="btn btn-primary w-100" [disabled]="!registerForm.form.valid">Register</button>
           <p class="text-center mt-3">
             Already have an account? <a routerLink="/login">Login here</a>

@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { UserServiceService } from '../user-service.service';
-declare var bootstrap: any;
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { SellerService } from '../seller.service';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-sellerdashboard',
-  imports: [CommonModule,FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './sellerdashboard.component.html',
   styleUrl: './sellerdashboard.component.css'
 })
@@ -26,7 +26,7 @@ export class SellerdashboardComponent {
   sectionTitle: string = '';
   loading = false;
   cars:any[] =[];
-  newCar = { id:'', carName: '', model:'', price: 0, brand:'',imageUrl:'', milleage:'', seats:'', engine:''};
+  newCar = { id:'', carName: '', model:'', price: 0, brand:'', imageUrl:'', milleage:'', seats:'', engine:''};
   newReply = { inquiryId:'', replyMessage:''};
 
   inquiries:any[] = [ ];
@@ -42,7 +42,7 @@ export class SellerdashboardComponent {
     this.currentSection = 'cars';  // Default section
     this.sectionTitle = 'Cars';
     this.getCars();
-    this.viewInquiry();
+    // this.viewInquiry();
     this.getPayments();
   }
   openAddCarModal() {
@@ -115,8 +115,8 @@ export class SellerdashboardComponent {
   addCar(){
       this.loading = true;
       // Send POST request
-      console.log("new car: "+this.newCar)
-      this.sellerService.addCar(this.newCar).subscribe({
+      console.log("New Car Data:", JSON.stringify(this.newCar, null, 2)); // Log full object
+      this.sellerService.addCar(JSON.stringify(this.newCar)).subscribe({
         next: (response) => {
           console.log(response.message);
           if(response.status==='00'){
@@ -144,18 +144,18 @@ export class SellerdashboardComponent {
   }
   getCars(){
     this.loading = true;
-    console.log("Fetching properties");
+    console.log("Fetching Cars");
     this.sellerService.fetchCars()
       .subscribe({
         next: (data) => {
           if (Object.values(data.data).length === 0) {
             this.loading = false;
-            console.log("No properties data found",data.meesage);
+            console.log("No Cars data found",data.meesage);
           } else {
             this.cars = Object.values(data.data);
             this.loading = false;
           }
-          console.log("Loaded properties:", this.loading);
+          console.log("Loaded Cars:", this.loading);
         },
         error: () => {
           this.loading = false;

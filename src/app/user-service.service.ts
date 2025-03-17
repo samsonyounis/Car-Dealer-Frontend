@@ -61,9 +61,11 @@ private tokenKey = 'auth_token';
 
 
   // Store the token in local storage
-  storeToken(token: string, username: string): void {
+  storeToken(token: string, username: string, email: string, phone: string): void {
     localStorage.setItem(this.tokenKey, token);
     localStorage.setItem("username", username);
+    localStorage.setItem("email", email);
+    localStorage.setItem("phone", phone);
 
   }
 

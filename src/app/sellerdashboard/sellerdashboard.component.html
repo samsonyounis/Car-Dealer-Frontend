@@ -41,13 +41,13 @@
                   <input type="text" id="price" class="form-control" [(ngModel)]="newCar.price" name="price" required>
                 </div>
                 <div class="mb-3">
-                  <label for="carBrand" class="form-label">Car Brand</label>
-                  <input type="text" id="carBrand" class="form-control" [(ngModel)]="newCar.brand" name="carBrand" required>
+                  <label for="brand" class="form-label">Car Brand</label>
+                  <input type="text" id="brand" class="form-control" [(ngModel)]="newCar.brand" name="brand" required>
                 </div>
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                   <label for="imageUrl" class="form-label">Car Image</label>
                   <input type="file" id="imageUrl" class="form-control" [(ngModel)]="newCar.imageUrl" name="imageUrl" required>
-                </div>
+                </div> -->
                 <div class="mb-3">
                   <label for="milleage" class="form-label">Milleage</label>
                   <input type="text" id="milleage" class="form-control" [(ngModel)]="newCar.milleage" name="milleage" required>
@@ -197,11 +197,11 @@
         <div class="container mt-4">
           <h2>{{ sectionTitle }}</h2>
           
-          <!-- Tabular Content -->
-          <div class="d-flex justify-content-center">
-            <button class="btn btn-outline-success btn-sm" (click)="openAddCarModal()">Add Car</button>
-          </div><br>            
+          <!-- Tabular Content -->        
           <div *ngIf="currentSection === 'cars'">
+            <div class="d-flex justify-content-center">
+              <button class="btn btn-outline-success btn-sm" (click)="openAddCarModal()">Add Car</button>
+            </div><br>    
             <div class="table-responsive">
               <table class="table table-bordered table-striped">
                 <thead>
@@ -223,7 +223,7 @@
                     <td>{{ i + 1 }}</td>
                     <td>{{ car.carName }}</td>
                     <td>{{ car.model }}</td>
-                    <td>{{ car.price | currency:'KES' }}</td>
+                    <td>{{ car.price | currency:'KES ' }}</td>
                     <td>{{ car.brand }}</td>
                     <td>{{ car.milleage }}</td>
                     <td>{{ car.engine }}</td>

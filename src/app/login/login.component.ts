@@ -29,7 +29,7 @@ export class LoginComponent {
           console.log(response.message);
           // Store the token in local storage
           this.userSerice.storeToken(response.data.accessToken,
-            response.data.fullName
+            response.data.fullName, response.data.email, response.data.phone
           );
           this.isLoading = false;
           if(response.data.userType==='SELLER'){
