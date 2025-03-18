@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ItCar } from '../interfaces/ItCar';
+import { BuyerService } from '../buyer.service';
 
 
 @Component({
@@ -16,22 +17,23 @@ import { ItCar } from '../interfaces/ItCar';
 })
 export class CourseComponent {
 
-  car?: ItCar;
+  car: any = {};
   carId: String | null='';
   errorMessage ="";
   constructor(private activatedRoute: ActivatedRoute, 
-    private coursesService: CoursesService,
+    private buyerService: BuyerService,
     private route: Router
   ){}
 
   ngOnInit(){
     this.activatedRoute.paramMap.subscribe((param)=>{
       this.carId = param.get("id");
-      this.coursesService.getCarsFromApi()
-      .subscribe({
-        next: (data) => (this.car = data.find(c=> c.id == this.carId)),
-        error: (error) => (this.errorMessage = error.message)
-    });
+      this.buyerService.fetchCars().subscribe({
+        next: (data: any[]) => {
+          this.car = data.find((c: any) => c.id == this.carId);
+        },
+        error: (error) => (this.errorMessage = error.message),
+      });
     });
 
   }

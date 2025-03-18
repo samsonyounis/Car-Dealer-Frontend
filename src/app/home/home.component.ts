@@ -12,6 +12,9 @@ export class HomeComponent {
   constructor(private activatedRoute: ActivatedRoute){}
   public greeting:String = "Welcome to Kivu Car Business";
 
+  cars: any[] = [];
+  newCar = { propertyId:'', propertyName: '', propertyType:'', price: 0, description:'',imageUrl:'', location:'', status:''};
+
   ngOnInit(){
     this.activatedRoute.fragment.subscribe((value)=>{
       this.jumpToSection(value ?? "testimonial");

@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart } from '@angular/router';
 import { ItCar } from '../interfaces/ItCar';
+import { BuyerService } from '../buyer.service';
 
 
 
@@ -16,52 +17,53 @@ import { ItCar } from '../interfaces/ItCar';
   styleUrl: './courses.component.css'
 })
 export class CoursesComponent {
-  public c: ItCourse[] = [];
-  cars: ItCar[] = [];
+  cars: any[] = [];
   errorMessage ="";
 
   enteredSearchValue = '';
   displayLoadingIndicator = true;
+  loading = false;
 
-  constructor(private service: CoursesService, private route: Router){}
+  constructor(private service: CoursesService, private route: Router,
+    private buyerService: BuyerService
+  ){}
 
   ngOnInit(){
-
-    // this.route.events.subscribe((routerEvent: Event) => {
-    //   if(routerEvent instanceof NavigationStart){
-    //     this.displayLoadingIndicator=true;
-    //     console.log('Navigation start event occurred');
-    //   }
-    //   if(routerEvent instanceof NavigationEnd 
-    //     || routerEvent instanceof NavigationCancel
-    //     || routerEvent instanceof NavigationError){
-    //       this.displayLoadingIndicator = false
-    //     }
-    // })
-
-    // this.courses = this.service.getCourses();
-setTimeout(() => {
-  this.displayLoadingIndicator = false;
-  this.service.getCarsFromApi()
-    .subscribe({
-      next: (data) => (
-        this.cars = data),
-      error: (error) => (this.errorMessage = error.message)
-  });
-}, 1000);
+    this.getCars();
     
   }
 
   onSearch(){
     console.log(this.enteredSearchValue);
   }
-  navigateToCourse(id:String){
-    console.log(id);
-    this.route.navigateByUrl("course/" +id)
+  navigateToLogin(){
+    this.route.navigateByUrl("login")
   }
 
   callSeller(phoneNumber: string) {
     window.location.href = `tel:${phoneNumber}`;
+  }
+
+  getCars(){
+    this.displayLoadingIndicator = true;
+    console.log("Fetching cars");
+    this.buyerService.fetchCars()
+      .subscribe({
+        next: (data) => {
+          if (Object.values(data.data).length === 0) {
+            this.displayLoadingIndicator = false;
+            console.log("No properties data found",data.meesage);
+          } else {
+            this.cars = Object.values(data.data);
+            this.displayLoadingIndicator = false;
+          }
+          console.log("Loaded properties:", this.displayLoadingIndicator);
+        },
+        error: () => {
+          this.displayLoadingIndicator = false;
+          console.log("Error occured:");
+        }
+      });
   }
   
 }

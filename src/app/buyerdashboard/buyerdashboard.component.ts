@@ -21,7 +21,6 @@ export class BuyerdashboardComponent {
   sectionTitle: string = '';
   newPaymentCarName = '';
   loading = false;
-  newCar = { propertyId:'', propertyName: '', propertyType:'', price: 0, description:'',imageUrl:'', location:'', status:''};
   newInquiry = { carId:'', customerName: '', customerEmail:'', message: ''};
   newPayment = { carId:'', debitAmount: '', debitAccount:'', paymentMethod: 'MPESA'};
 
@@ -57,7 +56,7 @@ export class BuyerdashboardComponent {
   }
 
   openPaymentModal(car:any){
-    console.log("Property id "+car.id)
+    console.log("Car id "+car.id)
     this.newPayment.carId = car.id;
     this.newPayment.debitAmount = car.price;
     this.newPayment.paymentMethod = 'MPESA';

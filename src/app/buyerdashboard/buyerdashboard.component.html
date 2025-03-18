@@ -76,6 +76,10 @@
                     <p>Payment for: {{newPaymentCarName }}</p>
                   </div>
                   <div class="mb-3">
+                    <label for="carId" class="form-label">Car ID</label>
+                    <input type="text" id="carId" class="form-control" [(ngModel)]="newPayment.carId" name="carId" required readonly>
+                  </div>
+                  <div class="mb-3">
                     <label for="debitAmount" class="form-label">Total Amount</label>
                     <input type="text" id="debitAmount" class="form-control" [(ngModel)]="newPayment.debitAmount" name="debitAmount" required readonly>
                   </div>

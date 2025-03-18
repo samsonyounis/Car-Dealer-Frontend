@@ -28,13 +28,17 @@
           <!-- Course Card 1 -->
           <div class="col" *ngFor="let car of cars">
             <div class="card h-100" *ngIf="enteredSearchValue === '' || car.type.toLowerCase().includes(enteredSearchValue) ">
-              <img [src]="car.image" class="card-img-top" alt="Car image">
+              <img [src]="car.imageUrl" class="card-img-top" alt="Car image">
               <div class="card-body" style="text-align: center;">
-                <h5 class="card-title">{{car.name}}</h5>
-                <h4 class="card-title">Type: {{car.type}}</h4>
-                <h5 class="card-title">Price: {{car.price | currency: 'USD'}}</h5>
-                <p class="card-text">{{car.des}}</p>
-                <span style="margin: 16px;"><button type="button" class="btn btn-primary" (click)="navigateToCourse(car.id)">View Car</button></span><br><br>
+                <h5 class="card-title">{{car.carName}}</h5>
+                <h4 class="card-title">Model: {{car.model}}</h4>
+                <h4 class="card-title">Brand: {{car.brand}}</h4>
+                <h4 class="card-title">Milleage: {{car.milleage}}</h4>
+                <h4 class="card-title">Seats: {{car.seats}}</h4>
+                <h4 class="card-title">Engine: {{car.engine}}</h4>
+                <h5 class="card-title">Price: {{car.price | currency: 'KES '}}</h5>
+                <p class="card-text">{{car.brand}}</p>
+                <span style="margin: 16px;"><button type="button" class="btn btn-primary" (click)="navigateToLogin()">Buyer Now</button></span><br><br>
                 <button type="button" class="btn btn-primary" (click)="callSeller(car.phoneNumber)">📞 Contact Seller</button>
                 <ng-template #later>
                   <span style="margin: 16px;"><button type="button" class="btn btn-primary" [disabled]="car.available !== 'available'">Buy Now</button></span>
