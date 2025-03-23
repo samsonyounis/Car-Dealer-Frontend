@@ -121,6 +121,8 @@
                       <th>Engine</th>
                       <th>Seats</th>
                       <th>Image</th>
+                      <th>Owner Name</th>
+                      <th>Status</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -135,6 +137,14 @@
                       <td>{{ car.engine }}</td>
                       <td>{{ car.seats }}</td>
                       <td><img [src]="car.imageUrl" alt="Car Image" class="img-fluid" style="max-width: 100px;"></td>
+                      <td>{{ car.ownerName }}</td>
+                      <td>
+                        <span [ngClass]="{'text-success': car.available, 'text-danger': !car.available}">
+                          <i *ngIf="car.available" class="fas fa-check-circle text-success"></i>
+                          <i *ngIf="!car.available" class="fas fa-times-circle text-danger"></i>
+                          {{ car.available ? 'Available' : 'Unavailable' }}
+                        </span>
+                      </td>
                       <td>
                         <div class="d-flex justify-content-start flex-wrap" style="gap: 5px;">
                           <button class="btn btn-outline-primary btn-sm" (click)="openAddInquiryModal(car)">Inquire</button>

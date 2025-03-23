@@ -26,8 +26,9 @@ export class SellerdashboardComponent {
   sectionTitle: string = '';
   loading = false;
   cars:any[] =[];
-  newCar = { id:'', carName: '', model:'', price: 0, brand:'', imageUrl:'', milleage:'', seats:'', engine:''};
+  newCar = { id:0, carName: '', model:'', price: 0, brand:'', imageUrl:'', milleage:'', seats:'', engine:''};
   newReply = { inquiryId:'', replyMessage:''};
+  selectedImage: File | null = null;
 
   inquiries:any[] = [ ];
   payments: any[] = [];
@@ -90,6 +91,12 @@ export class SellerdashboardComponent {
     }
   }
 
+  onFileSelected(event: any) {
+    if (event.target.files.length > 0) {
+      this.selectedImage = event.target.files[0];
+    }
+  }
+
   getPayments(){
     this.loading = true;
     console.log("Fetching payments");
@@ -116,31 +123,33 @@ export class SellerdashboardComponent {
       this.loading = true;
       // Send POST request
       console.log("New Car Data:", JSON.stringify(this.newCar, null, 2)); // Log full object
-      this.sellerService.addCar(JSON.stringify(this.newCar)).subscribe({
-        next: (response) => {
-          console.log(response.message);
-          if(response.status==='00'){
-            alert(response.message);
-            //navigate to login
+      if (this.selectedImage){
+        this.sellerService.addCar(this.newCar, this.selectedImage).subscribe({
+          next: (response) => {
+            console.log(response.message);
+            if(response.status==='00'){
+              alert(response.message);
+              //navigate to login
+              this.loading = false;
+              this.cars.unshift(response.data);
+            }
             this.loading = false;
-            this.cars.unshift(response.data);
+            alert(response.message);
+            const modalElement = document.getElementById('addCarModal');
+            if (modalElement) {
+              const modal = bootstrap.Modal.getInstance(modalElement);
+              modal?.hide();
+            }
+            //navigate to error page with the response message
+          },
+          error: (error) => {
+            console.error('Error:', error);
+            this.loading = false;
+            alert(error.message);
+            //navigate to error page with the error meesage
           }
-          this.loading = false;
-          alert(response.message);
-          const modalElement = document.getElementById('addCarModal');
-          if (modalElement) {
-            const modal = bootstrap.Modal.getInstance(modalElement);
-            modal?.hide();
-          }
-          //navigate to error page with the response message
-        },
-        error: (error) => {
-          console.error('Error:', error);
-          this.loading = false;
-          alert(error.message);
-          //navigate to error page with the error meesage
-        }
-      });
+        });
+      }
   }
   getCars(){
     this.loading = true;

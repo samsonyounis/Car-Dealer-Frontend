@@ -20,15 +20,18 @@ private tokenKey = 'auth_token';
     return `${this.localUrl}${endpoint}`;
   }
 
-  addCar(car: any): Observable<any> {
+  addCar(car: any, image: File): Observable<any> {
     console.log("Car details :"+car)
+    const formData = new FormData();
+    formData.append('data', JSON.stringify(car));
+    formData.append('image', image);
+    console.log("car details string: "+JSON.stringify(car));
     const token = this.userService.getToken();
     // Set up headers with Bearer Token
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
     });
-    return this.http.post(this.getFullUrl("/post-car"), car, {headers})
+    return this.http.post(this.getFullUrl("/post-car"), formData, {headers})
     .pipe(catchError(this.handleError));
   }
 

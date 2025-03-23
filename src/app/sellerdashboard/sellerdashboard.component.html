@@ -44,10 +44,10 @@
                   <label for="brand" class="form-label">Car Brand</label>
                   <input type="text" id="brand" class="form-control" [(ngModel)]="newCar.brand" name="brand" required>
                 </div>
-                <!-- <div class="mb-3">
-                  <label for="imageUrl" class="form-label">Car Image</label>
-                  <input type="file" id="imageUrl" class="form-control" [(ngModel)]="newCar.imageUrl" name="imageUrl" required>
-                </div> -->
+                <div class="mb-3">
+                  <label for="imageUrl" class="form-label">Select Image</label>
+                  <input type="file" (change)="onFileSelected($event)" id="imageUrl" class="form-control" [(ngModel)]="newCar.imageUrl" name="imageUrl" required>
+                </div>
                 <div class="mb-3">
                   <label for="milleage" class="form-label">Milleage</label>
                   <input type="text" id="milleage" class="form-control" [(ngModel)]="newCar.milleage" name="milleage" required>
@@ -215,6 +215,7 @@
                     <th>Engine</th>
                     <th>Seats</th>
                     <th>Image</th>
+                    <th>Status</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -229,6 +230,13 @@
                     <td>{{ car.engine }}</td>
                     <td>{{ car.seats }}</td>
                     <td><img [src]="car.imageUrl" alt="Car Image" class="img-fluid" style="max-width: 100px;"></td>
+                    <td>
+                      <span [ngClass]="{'text-success': car.available, 'text-danger': !car.available}">
+                        <i *ngIf="car.available" class="fas fa-check-circle text-success"></i>
+                        <i *ngIf="!car.available" class="fas fa-times-circle text-danger"></i>
+                        {{ car.available ? 'Available' : 'Unavailable' }}
+                      </span>
+                    </td>
                     <td>
                       <div class="d-flex justify-content-start flex-wrap" style="gap: 5px;">
                         <button class="btn btn-outline-primary btn-sm" (click)="openEditCarModal(car)">Edit</button>
