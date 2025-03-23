@@ -10,7 +10,7 @@ export class AdminDashboardComponent {
 
   totalCars = 120;
   totalSellers = 45;
-  totalOrders = 78;
+  totalPayments = 78;
   totalQueries = 12;
 
   cars = [
@@ -18,12 +18,22 @@ export class AdminDashboardComponent {
     { model: 'Honda Civic', seller: 'Jane Smith', price: 18000, status: 'Sold' }
   ];
 
-  orders = [
+  payments = [
     { carModel: 'Toyota Corolla', buyer: 'Mike Adams', status: 'Completed' },
     { carModel: 'Honda Civic', buyer: 'Sarah Lee', status: 'Pending' }
   ];
+  quries: any[] = [];
+  sellers: any[]= [];
 
   setActiveTab(tab: string) {
     this.activeTab = tab;
+  }
+
+  ngOnInit(): void {
+    this.totalCars = 120;
+    this.totalSellers = 45;
+    this.totalPayments = 78;
+    this.totalQueries = 12;
+    this.activeTab='dashboard';
   }
 }
