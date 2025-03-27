@@ -39,7 +39,7 @@
                 <h5 class="card-title">Price: {{car.price | currency: 'KES '}}</h5>
                 <p class="card-text">{{car.brand}}</p>
                 <span style="margin: 16px;"><button type="button" class="btn btn-primary" (click)="navigateToLogin()">Buyer Now</button></span><br><br>
-                <button type="button" class="btn btn-primary" (click)="callSeller(car.phoneNumber)">📞 Contact Seller</button>
+                <button type="button" class="btn btn-primary" (click)="callSeller(car.ownerPhone)">📞 Contact Seller</button>
                 <ng-template #later>
                   <span style="margin: 16px;"><button type="button" class="btn btn-primary" [disabled]="car.available !== 'available'">Buy Now</button></span>
                 </ng-template>   
