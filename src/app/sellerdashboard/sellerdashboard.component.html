@@ -9,6 +9,7 @@
             <a class="nav-link"  (click)="changeSection('cars')">Cars</a>
             <!-- <a class="nav-link" (click)="changeSection('inquiries')">Inquiries</a> -->
             <a class="nav-link" (click)="changeSection('payments')">Payments</a>
+            <a class="nav-link" (click)="changeSection('reports')">Reports</a>
             <a class="nav-link" (click)="changeSection('profile')">Profile</a>
             <a class="nav-link text-danger" (click)="logout()">Logout</a>
           </div>
@@ -308,6 +309,54 @@
                 <p><strong>Email:</strong> {{ email }}</p>
                 <p><strong>Phone:</strong> {{ phone }}</p>
                 <!-- <button class="btn btn-primary">Edit Profile</button> -->
+              </div>
+            </div>
+          </div>
+          <div *ngIf="currentSection === 'reports'">
+            <div class="row">
+              <!-- Total cars -->
+                <div class="col-md-3" (click)="changeSection('cars')">
+                  <div class="card text-white bg-primary mb-3">
+                    <div class="card-body">
+                      <h5 class="card-title">Total Cars</h5>
+                      <h2>{{ cars.length }}</h2>
+                    </div>
+                  </div>
+                </div>
+          
+              <!-- Total Payments -->
+              <div class="col-md-3" (click)="changeSection('payments')" >
+                <div class="card text-white bg-success mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title">Total Payments</h5>
+                    <h2>{{ payments.length }}</h2>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Total Amount Payment -->
+              <div class="col-md-3" (click)="changeSection('payments')" >
+                <div class="card text-white bg-success mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title">Total Amount</h5>
+                    <h2>{{ totalPayment }}</h2>
+                  </div>
+                </div>
+              </div>
+
+                              <!-- Total Commission -->
+              <div class="col-md-3" (click)="changeSection('payments')" >
+                <div class="card text-white bg-success mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title">Total Commision</h5>
+                    <h2>{{ totalCommission }}</h2>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center mt-4">
+                <button class="btn btn-primary" (click)="downloadReport()">
+                  <i class="fas fa-download"></i> Download Report
+                </button>
               </div>
             </div>
           </div>

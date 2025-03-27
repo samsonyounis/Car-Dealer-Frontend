@@ -110,7 +110,9 @@ export class BuyerdashboardComponent {
         }
       });
   }
-
+  callSeller(phoneNumber: string) {
+    window.location.href = `tel:${phoneNumber}`;
+  }
   addInquiry(){
     this.loading = true;
       // Send POST request

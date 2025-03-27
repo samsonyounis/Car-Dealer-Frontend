@@ -45,7 +45,16 @@ private tokenKey = 'auth_token';
     return this.http.post(this.getFullUrl("/view-cars"), {}, {headers})
     .pipe(catchError(this.handleError));
   }
-
+  fetchAnalytics(): Observable<any> {
+    const token = this.userService.getToken();
+    // Set up headers with Bearer Token
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(this.getFullUrl("/get-analytics"), {}, {headers})
+    .pipe(catchError(this.handleError));
+  }
   fetchPayments(): Observable<any> {
     const token = this.userService.getToken();
     // Set up headers with Bearer Token

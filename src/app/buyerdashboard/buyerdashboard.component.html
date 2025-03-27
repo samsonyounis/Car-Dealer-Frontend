@@ -147,7 +147,7 @@
                       </td>
                       <td>
                         <div class="d-flex justify-content-start flex-wrap" style="gap: 5px;">
-                          <button class="btn btn-outline-primary btn-sm" (click)="openAddInquiryModal(car)">Inquire</button>
+                          <button type="button" class="btn btn-primary" (click)="callSeller(car.ownerPhone)">📞 Contact Seller</button>
                           <button class="btn btn-outline-success btn-sm" (click)="openPaymentModal(car)">Make Payment</button>
                         </div>            
                       </td>
@@ -165,7 +165,6 @@
                     <th>Amount</th>
                     <th>Date</th>
                     <th>Description</th>
-                    <th>Commission</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -173,9 +172,7 @@
                     <td>{{ payment.trxId }}</td>
                     <td>{{ payment.amount | currency:'KES' }}</td>
                     <td>{{ payment.paidDate | date: 'short' }}</td>
-                    <td>{{ payment.description }}</td>
-                    <td>{{ payment.commission }}</td>
-  
+                    <td>{{ payment.description }}</td>  
                   </tr>
                 </tbody>
               </table>

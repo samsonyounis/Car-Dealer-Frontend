@@ -33,8 +33,15 @@ export class CoursesComponent {
     
   }
 
-  onSearch(){
-    console.log(this.enteredSearchValue);
+  filteredCars = this.cars; // Copy of cars for search filtering
+
+  onSearch() {
+    const searchText = this.enteredSearchValue.toLowerCase().trim();
+
+    this.filteredCars = this.cars.filter(car => 
+      car.carName.toLowerCase().includes(searchText) ||
+      car.brand.toLowerCase().includes(searchText)
+    );
   }
   navigateToLogin(){
     this.route.navigateByUrl("login")

@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { SellerService } from '../seller.service';
 declare var bootstrap: any;
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-sellerdashboard',
@@ -25,6 +27,8 @@ export class SellerdashboardComponent {
   currentSection: string = '';
   sectionTitle: string = '';
   loading = false;
+  totalPayment = 0;
+  totalCommission = 0;
   cars:any[] =[];
   newCar = { id:0, carName: '', model:'', price: 0, brand:'', imageUrl:'', milleage:'', seats:'', engine:''};
   newReply = { inquiryId:'', replyMessage:''};
@@ -45,6 +49,7 @@ export class SellerdashboardComponent {
     this.getCars();
     // this.viewInquiry();
     this.getPayments();
+    this.getAnalytics();
   }
   openAddCarModal() {
     const modalElement = document.getElementById('addCarModal');
@@ -53,6 +58,49 @@ export class SellerdashboardComponent {
       modal.show();
     }
   }
+  getAnalytics(){
+    this.loading = true;
+    console.log("Fetching analytics");
+    this.sellerService.fetchAnalytics()
+      .subscribe({
+        next: (data) => {
+          if (data.status ==='00') {
+            this.loading = false;
+            console.log("Total cars: "+ data.data.totalCars);
+            this.totalPayment = data.data.totalAmount;
+            this.totalCommission = data.data.totalCommission;
+          } else {
+            this.loading = false;
+          }
+          console.log("Loaded analytics:", this.loading);
+        },
+        error: () => {
+          this.loading = false;
+          console.log("Error occured:");
+        }
+      });
+  }
+
+  downloadReport() {
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text('Financial Report', 14, 15);
+
+    autoTable(doc, {
+      startY: 25,
+      head: [['Metric', 'Value']],
+      body: [
+        ['Total Cars', this.cars.length.toString()+ " Cars"],
+        ['Total Payments', this.payments.length.toString()+" Payments"],
+        ['Total Amount', `KES ${this.totalPayment}`],
+        ['Total Commission', `KES ${this.totalCommission}`]
+      ]
+    });
+
+    doc.save('report.pdf');
+  }
+
   openEditCarModal(car:any){
     console.log("Car id "+car.id)
     this.newCar.id = car.id; // Prefill propertyId
